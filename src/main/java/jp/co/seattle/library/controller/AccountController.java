@@ -65,7 +65,7 @@ public class AccountController {
         boolean isPasswordForCheck = passwordForCheck.matches("^[A-Za-z0-9]+$");
 
         if (!isEmailvalid || !isPassword || !isPasswordForCheck) {
-            model.addAttribute("hankakuerror", "半角英数字で入力してください");
+            model.addAttribute("errormessege", "半角英数字で入力してください");
             return "createAccount";
         }
         if (!password.equals(passwordForCheck)) {
