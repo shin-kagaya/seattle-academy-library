@@ -57,6 +57,15 @@ public class BooksService {
     }
 
 
+    /**
+     * 書籍IDに紐づく書籍を削除する
+     * 
+     * @param bookId 書籍ID
+     */
+    public void deleteBook(int bookId) {
+        String sql = "DELETE FROM books WHERE ID=" + bookId + ";";
+        jdbcTemplate.update(sql);
+    }
 
     /**
      * 書籍を登録する
