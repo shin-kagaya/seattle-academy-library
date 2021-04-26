@@ -56,7 +56,6 @@ public class BooksService {
         return bookDetailsInfo;
     }
 
-
     /**
      * 書籍IDに紐づく書籍を削除する
      * 
@@ -74,8 +73,13 @@ public class BooksService {
      */
     public void registBook(BookDetailsInfo bookInfo) {
 
-        String sql = "INSERT INTO books (title, author,publisher,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
-                + bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
+        String sql = "INSERT INTO books (title, author, publisher, publish_date, description, isbn, thumbnail_name, thumbnail_url, reg_date, upd_date) VALUES ('"
+                + bookInfo.getTitle() + "','"
+                + bookInfo.getAuthor() + "','"
+                + bookInfo.getPublisher() + "','"
+                + bookInfo.getPublishDate() + "','"
+                + bookInfo.getDescription() + "','"
+                + bookInfo.getIsbn() + "','"
                 + bookInfo.getThumbnailName() + "','"
                 + bookInfo.getThumbnailUrl() + "',"
                 + "sysdate(),"
