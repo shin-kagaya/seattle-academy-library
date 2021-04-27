@@ -1,5 +1,8 @@
 package jp.co.seattle.library.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +46,9 @@ public class AddBooksController {
      * @param title 書籍名
      * @param author 著者名
      * @param publisher 出版社
+     * @param publishDate 出版日
+     * @param description 説明
+     * @param isbn ISBN
      * @param file サムネイルファイル
      * @param model モデル
      * @return 遷移先画面
@@ -52,6 +59,9 @@ public class AddBooksController {
             @RequestParam("title") String title,
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
+            @RequestParam("publishDate") String publishDate,
+            @RequestParam("description") String description,
+            @RequestParam("isbn") String isbn,
             @RequestParam("thumbnail") MultipartFile file,
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
@@ -61,6 +71,33 @@ public class AddBooksController {
         bookInfo.setTitle(title);
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
+        //パラメータで受け取った出版日、説明、ISBN情報をDtoに格納
+        bookInfo.setPublishDate(publishDate);
+        bookInfo.setDescription(description);
+        bookInfo.setIsbn(isbn);
+
+        //バリデーションチェック
+        if (StringUtils.isEmpty(title) | StringUtils.isEmpty(author) | StringUtils.isEmpty(publisher)
+                | StringUtils.isEmpty(publishDate)) {
+            model.addAttribute("emptyError", "必須項目に値を入力してください");
+            return "addBook";
+        }
+
+        try {
+            DateFormat df = new SimpleDateFormat("yyyyMMdd");
+            df.setLenient(false);
+            df.parse(publishDate);
+
+        } catch (ParseException p) {
+            model.addAttribute("dateError", "出版日は半角数字のYYYYMMDD形式で入力してください");
+            return "addBook";
+        }
+
+        boolean isIsbn = isbn.matches("[0-9]{10}|[0-9]{13}|^$");
+        if (!isIsbn) {
+            model.addAttribute("isbnError", "ISBNの桁数または半角数字が正しくありません");
+            return "addBook";
+        }
 
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
@@ -90,6 +127,8 @@ public class AddBooksController {
         model.addAttribute("resultMessage", "登録完了");
 
         // TODO 登録した書籍の詳細情報を表示するように実装
+        model.addAttribute("bookDetailsInfo", bookInfo);
+
         //  詳細画面に遷移する
         return "details";
     }
