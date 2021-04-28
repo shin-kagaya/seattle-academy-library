@@ -87,4 +87,30 @@ public class BooksService {
 
         jdbcTemplate.update(sql);
     }
+
+    /**
+     * 書籍情報を更新する
+     *
+     * @param bookInfo 書籍情報
+     */
+    public void updateBook(BookDetailsInfo bookInfo) {
+
+        //シングル→SQLでカラムのデータ型が文字列の時
+        //ダブル→Javaで文字列として認識させたい
+        //＋→文字列の中で変数を変数として認識させたい時
+        String sql = "UPDATE books SET "
+                + "TITLE='" + bookInfo.getTitle() + "',"
+                + "AUTHOR= '" + bookInfo.getAuthor() + "',"
+                + "PUBLISHER= '" + bookInfo.getPublisher() + "',"
+                + "PUBLISH_DATE= '" + bookInfo.getPublishDate() + "',"
+                + "THUMBNAIL_URL= '" + bookInfo.getThumbnailUrl() + "',"
+                + "THUMBNAIL_NAME= '" + bookInfo.getThumbnailName() + "',"
+                + "UPD_DATE= sysdate(),"
+                + "DESCRIPTION= '" + bookInfo.getDescription() + "',"
+                + "ISBN= '" + bookInfo.getIsbn() + "'"
+                + "WHERE ID= " + bookInfo.getBookId();
+
+        jdbcTemplate.update(sql);
+
+    }
 }
