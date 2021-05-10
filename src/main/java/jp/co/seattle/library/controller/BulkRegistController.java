@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
-import jp.co.seattle.library.service.ThumbnailService;
 
 /**
  * Handles requests for the application home page.
@@ -39,12 +38,9 @@ public class BulkRegistController {
     @Autowired
     private BooksService booksService;
 
-    @Autowired
-    private ThumbnailService thumbnailService;
-
     @RequestMapping(value = "/bulkRegist", method = RequestMethod.GET) //value＝actionで指定したパラメータ
     //RequestParamでname属性を取得
-    public String login(Model model) {
+    public String bulkRegist(Model model) {
         return "bulkRegist";
     }
 
@@ -58,10 +54,9 @@ public class BulkRegistController {
             @RequestParam("csvFile") MultipartFile file,
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
-        try {
-            InputStream stream = file.getInputStream();
+        try (InputStream stream = file.getInputStream();
             Reader reader = new InputStreamReader(stream);
-            BufferedReader buf = new BufferedReader(reader);
+                BufferedReader buf = new BufferedReader(reader);) {
             List<BookDetailsInfo> lines = new ArrayList<BookDetailsInfo>();
             List<String> errorMessages = new ArrayList<String>();
             int count = 1;
@@ -73,14 +68,14 @@ public class BulkRegistController {
             while ((line = buf.readLine()) != null) {
                 String[] bookData = line.split(",", -1);
                 BookDetailsInfo bookDetailsInfo = new BookDetailsInfo();
-                boolean check = false;
+                boolean existsError = false;
 
                 bookDetailsInfo.setDescription(bookData[5]);
 
                 if (StringUtils.isEmpty(bookData[0]) | StringUtils.isEmpty(bookData[1])
                         | StringUtils.isEmpty(bookData[2])
                         | StringUtils.isEmpty(bookData[3])) {
-                    check = true;
+                    existsError = true;
                 }
 
                 bookDetailsInfo.setTitle(bookData[0]);
@@ -95,16 +90,16 @@ public class BulkRegistController {
                     bookDetailsInfo.setPublishDate(bookData[3]);
 
                 } catch (ParseException p) {
-                    check = true;
+                    existsError = true;
                 }
                 boolean isIsbn = bookData[4].matches("[0-9]{10}|[0-9]{13}|^$");
                 if (!isIsbn) {
-                    check = true;
+                    existsError = true;
                 }
 
                 bookDetailsInfo.setIsbn(bookData[4]);
 
-                if (check) {
+                if (existsError) {
                     errorMessages.add(count + "行目の書籍情報登録でバリデーションエラー");
                 }
                 lines.add(bookDetailsInfo);
