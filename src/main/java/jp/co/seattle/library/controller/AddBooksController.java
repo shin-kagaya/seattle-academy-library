@@ -127,7 +127,12 @@ public class AddBooksController {
         model.addAttribute("resultMessage", "登録完了");
 
         // TODO 登録した書籍の詳細情報を表示するように実装
+        int maxId = booksService.getBookId();
+        bookInfo.setBookId(maxId);
         model.addAttribute("bookDetailsInfo", bookInfo);
+
+        //貸出ステータス表示
+        model.addAttribute("rentOK", "貸出可");
 
         //  詳細画面に遷移する
         return "details";

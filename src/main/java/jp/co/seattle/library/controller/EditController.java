@@ -145,6 +145,9 @@ public class EditController {
         // TODO 編集更新した書籍の詳細情報を表示するように実装
         model.addAttribute("bookDetailsInfo", bookInfo);
 
+        //貸出ステータス表示
+        model.addAttribute("rentOK", "貸出可");
+
         //  詳細画面に遷移する
         return "details";
     }

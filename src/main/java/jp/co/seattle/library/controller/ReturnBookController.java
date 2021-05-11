@@ -16,44 +16,43 @@ import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentalService;
 
 /**
- * 詳細表示コントローラー
+ * 書籍返却コントローラー
  */
 @Controller
-public class DetailsController {
-    final static Logger logger = LoggerFactory.getLogger(BooksService.class);
+public class ReturnBookController {
+    final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
 
     @Autowired
-    private BooksService bookdService;
+    private BooksService booksService;
 
     @Autowired
     private RentalService rentalService;
 
     /**
-     * 詳細画面に遷移する
+     * 返却処理をして詳細画面に遷移する
      * @param locale
      * @param bookId
      * @param model
-     * @return
+     * @return 遷移画面先
      */
     @Transactional
-    @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public String detailsBook(Locale locale,
+    @RequestMapping(value = "/returnBook", method = RequestMethod.POST) //value＝actionで指定したパラメータ
+    public String editBook(Locale locale,
             @RequestParam("bookId") Integer bookId,
             Model model) {
         // デバッグ用ログ
-        logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
-        
-        //書籍IDを元に貸出状況を調べる
-        int number = rentalService.checkStatus(bookId);
-        if (number == 0) {
-            model.addAttribute("rentOK", "貸出可");
-        } else {
-            model.addAttribute("rentNG", "貸出中");
-            model.addAttribute("deleteNG", "貸出中の本は削除できません");
-        }
+        logger.info("Welcome ReturnBookControler.java! The client locale is {}.", locale);
 
-        model.addAttribute("bookDetailsInfo", bookdService.getBookInfo(bookId));
+        //RentalServiceのreturnBookメソッドを呼んで返却処理を行う
+        rentalService.returnBook(bookId);
+
+        //返却した本の詳細情報を詳細画面に表示
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
+        //貸出可表示をする
+        model.addAttribute("rentOK", "貸出可");
 
         return "details";
     }
+
 }
