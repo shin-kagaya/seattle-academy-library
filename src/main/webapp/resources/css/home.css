@@ -273,10 +273,10 @@ hr.border_add {
 }
 
 .bulk_form {
-	text-align: center;
+	text-align:center;
 }
 .bulk_form h2{
-	margin-bottom:20px
+	margin-bottom:20px;
 }
 .bulk_form .caution{
 	text-align:left;
