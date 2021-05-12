@@ -135,6 +135,9 @@ public class EditController {
                 return "edit";
             }
 
+        } else {
+            bookInfo.setThumbnailName(booksService.getBookInfo(bookId).getThumbnailName());
+            bookInfo.setThumbnailUrl(booksService.getBookInfo(bookId).getThumbnailUrl());
         }
 
         // 書籍情報を更新する
