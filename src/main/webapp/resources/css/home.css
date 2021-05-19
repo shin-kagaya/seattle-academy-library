@@ -98,7 +98,9 @@ input {
 }
 
 .books {
-    display: inline-block;
+	width: 200px;
+    height: 350px;
+    display: inline-block;    
     margin-right: 10px;
     line-height: 1.5;
 }
@@ -128,17 +130,27 @@ img.book_noimg, img.book_img{
 .book_title {
     font-size: 16px;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .book_author {
     font-size: 13px;
     text-align: center;
     margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .book_publisher, .book_publish_date {
     font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
 
 a.btn_add_book,a.btn_bulk_book, button.btn_addBook,button.btn_editBook, button.btn_deleteBook,button.btn_rentBook,button.btn_returnBook,button.btn_bulkRegist {
     display: inline-block;

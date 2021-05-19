@@ -39,21 +39,21 @@
                         <div class="books">
                             <form method="post" class="book_thumnail" action="<%=request.getContextPath()%>/details">
                                 <a href="javascript:void(0)" onclick="this.parentNode.submit();">
-                                    <c:if test="${empty bookInfo.thumbnail}">
+                                    <c:if test="${bookInfo.thumbnail == 'null'}">
                                         <img class="book_noimg" src="resources/img/noImg.png">
                                     </c:if>
-                                    <c:if test="${!empty bookInfo.thumbnail}">
+                                    <c:if test="${bookInfo.thumbnail != 'null'}">
                                         <img class="book_noimg" src="${bookInfo.thumbnail}">
                                     </c:if>
                                 </a>
                             <input type="hidden" name="bookId" value="${bookInfo.bookId}">
-                            </form>
+                            </form>                            
                             <ul>
                                 <li class="book_title">${bookInfo.title}</li>
-                                <li class="book_title">${bookInfo.author}</li>
-                                <li class="book_title">${bookInfo.publisher}</li>
-                                <li class="book_title">${bookInfo.publishDate}</li>
-                            </ul>
+                                <li class="book_author">${bookInfo.author}</li>
+                                <li class="book_publisher">${bookInfo.publisher}</li>
+                                <li class="book_publish_date">${bookInfo.publishDate}</li>
+                            </ul>                          
                         </div>
                     </c:forEach>
                 </div>
