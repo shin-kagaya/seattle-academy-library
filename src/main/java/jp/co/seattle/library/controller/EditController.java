@@ -49,7 +49,7 @@ public class EditController {
         // デバッグ用ログ
         logger.info("Welcome editControler.java! The client locale is {}.", locale);
 
-        model.addAttribute("bookEditInfo", booksService.getBookInfo(bookId));
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
         return "edit";
     }
@@ -95,6 +95,14 @@ public class EditController {
         if (StringUtils.isEmpty(title) | StringUtils.isEmpty(author) | StringUtils.isEmpty(publisher)
                 | StringUtils.isEmpty(publishDate)) {
             model.addAttribute("emptyError", "必須項目に値を入力してください");
+            model.addAttribute("bookDetailsInfo", bookInfo);
+            return "edit";
+        }
+
+        boolean isHalfSize = publishDate.matches("^[0-9]+$");
+        if (!isHalfSize) {
+            model.addAttribute("dateError", "出版日は半角数字のYYYYMMDD形式で入力してください");
+            model.addAttribute("bookDetailsInfo", bookInfo);
             return "edit";
         }
 
@@ -105,12 +113,14 @@ public class EditController {
 
         } catch (ParseException p) {
             model.addAttribute("dateError", "出版日は半角数字のYYYYMMDD形式で入力してください");
+            model.addAttribute("bookDetailsInfo", bookInfo);
             return "edit";
         }
 
         boolean isIsbn = isbn.matches("[0-9]{10}|[0-9]{13}|^$");
         if (!isIsbn) {
             model.addAttribute("isbnError", "ISBNの桁数または半角数字が正しくありません");
+            model.addAttribute("bookDetailsInfo", bookInfo);
             return "edit";
         }
 
@@ -140,13 +150,19 @@ public class EditController {
             bookInfo.setThumbnailUrl(booksService.getBookInfo(bookId).getThumbnailUrl());
         }
 
+        if (title.length() >= 256 | author.length() >= 256 | publisher.length() >= 256 | description.length() >= 256) {
+            model.addAttribute("lengthError", "入力する文字数は255文字以下にしてください");
+            model.addAttribute("bookDetailsInfo", bookInfo);
+            return "edit";
+        }
+
         // 書籍情報を更新する
         booksService.updateBook(bookInfo);
-
         model.addAttribute("resultMessage", "更新完了");
 
         // TODO 編集更新した書籍の詳細情報を表示するように実装
         model.addAttribute("bookDetailsInfo", bookInfo);
+
 
         //貸出ステータス表示
         model.addAttribute("rentOK", "貸出可");

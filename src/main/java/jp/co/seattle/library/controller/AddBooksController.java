@@ -82,6 +82,11 @@ public class AddBooksController {
             model.addAttribute("emptyError", "必須項目に値を入力してください");
             return "addBook";
         }
+        boolean isHalfSize = publishDate.matches("^[0-9]+$");
+        if (!isHalfSize) {
+            model.addAttribute("dateError", "出版日は半角数字のYYYYMMDD形式で入力してください");
+            return "addBook";
+        }
 
         try {
             DateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -119,6 +124,11 @@ public class AddBooksController {
                 model.addAttribute("bookDetailsInfo", bookInfo);
                 return "addBook";
             }
+        }
+
+        if (title.length() >= 256 | author.length() >= 256 | publisher.length() >= 256 | description.length() >= 256) {
+            model.addAttribute("lengthError", "入力する文字数は255文字以下にしてください");
+            return "addBook";
         }
 
         // 書籍情報を新規登録する

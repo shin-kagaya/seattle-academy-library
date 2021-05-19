@@ -51,6 +51,9 @@
                         <c:if test="${!empty isbnError}">
                             <div class="error">"${isbnError}"</div>
                         </c:if>
+                        <c:if test="${!empty lengthError}">
+                            <div class="error">"${lengthError}"</div>
+                        </c:if>
                     <div>
                         <span>書籍名</span><span class="care care2">必須</span>
                         <c:if test="${!empty bookInfo}">

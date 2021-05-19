@@ -44,6 +44,16 @@ public class LoginController {
             @RequestParam("password") String password,
             Model model) {
 
+        //ユーザー入力情報が全角入力になっていないかのチェック
+        boolean isEmailvalid = email.matches(
+                "^(([0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*)|(\"[^\"]*\"))@[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+(.[0-9a-zA-Z!#$%&'*+-/=?^_`{}|~]+)*$");
+        boolean isPassword = password.matches("^[A-Za-z0-9]+$");
+
+        if (!isEmailvalid || !isPassword) {
+            model.addAttribute("errorMessage", "半角英数字で入力してください");
+            return "login";
+        }
+
         // TODO 下記のコメントアウトを外してサービスクラスを使用してください。
         UserInfo selectedUserInfo = usersService.selectUserInfo(email, password);
 
