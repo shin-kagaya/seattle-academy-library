@@ -35,23 +35,21 @@
             <div class="content_left">
                 <span>書籍の画像</span>
                 <div class="book_thumnail">
-                    <a href="${bookDetailsInfo.thumbnailUrl}" data-lightbox="image-1">
-                     <c:if test="${bookDetailsInfo.thumbnailUrl == 'null'}">
+                    <a href="${bookDetailsInfo.thumbnailUrl}" data-lightbox="image-1"> <c:if test="${bookDetailsInfo.thumbnailUrl == 'null'}">
                             <img class="book_noimg" src="resources/img/noImg.png">
-                     </c:if>
-                      <c:if test="${bookDetailsInfo.thumbnailUrl != 'null'}">
+                        </c:if> <c:if test="${bookDetailsInfo.thumbnailUrl != 'null'}">
                             <img class="book_noimg" src="${bookDetailsInfo.thumbnailUrl}">
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
                     </a>
                 </div>
                 <div class="lendingStatus_label">
                     <c:if test="${!empty rentOK}">
-                            "${rentOK}"
-                     </c:if>
+                        "${rentOK}"
+                    </c:if>
                     <c:if test="${!empty rentNG}">
-                            "${rentNG}"
-                            <p class="error">"${deleteNG}"</p>
-                     </c:if>
+                        "${rentNG}"
+                        <p class="error">"${deleteNG}"</p>
+                    </c:if>
                 </div>
                 <c:if test="${!empty resultMessage}">
                     <div class="error">"${resultMessage}"</div>
@@ -84,36 +82,21 @@
                 </div>
             </div>
         </div>
-        <div class="edtDelBookBtn_box ">
-            <c:if test="${!empty rentOK}">
-                <form method="post" action="rentBook">
-                    <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
-                </form>
-                <form method="post" action="returnBook">
-                    <button type="submit" disabled value="${bookDetailsInfo.bookId}" name="bookId" class="btn_returnBook">返す</button>
-                </form>
-                <form method="post" action="editBook">
-                <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_editBook">編集</button>
-                </form>
-                <form method="post" action="deleteBook">
-                <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_deleteBook">削除</button>
-                </form>
-            </c:if>
-            <c:if test="${!empty rentNG}">
-                <form method="post" action="rentBook">
-                    <button type="submit" disabled value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
-                </form>
-                <form method="post" action="returnBook">
-                    <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_returnBook">返す</button>
-                </form>
-                <form method="post" action="editBook">
-                <button type="submit" disabled value="${bookDetailsInfo.bookId}" name="bookId" class="btn_editBook">編集</button>
-                </form>
-                <form method="post" action="deleteBook">
-                <button type="submit" disabled value="${bookDetailsInfo.bookId}" name="bookId" class="btn_deleteBook">削除</button>
-                </form>
-            </c:if>           
+        <div class="edtDelBookBtn_box">
+            <form method="post" action="rentBook">
+                <button id="rent" type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
+            </form>
+            <form method="post" action="returnBook">
+                <button id="return" type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_returnBook">返す</button>
+            </form>
+            <form method="post" action="editBook">
+                <button id="edit" type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_editBook">編集</button>
+            </form>
+            <form method="post" action="deleteBook">
+                <button id="delete" type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_deleteBook">削除</button>
+            </form>
         </div>
     </main>
+    <script type="text/javascript" src="resources/js/button.js"></script>
 </body>
 </html>
