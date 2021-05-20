@@ -7,11 +7,9 @@ $(".lendingStatus_label").ready(function() {
 	//読み込んだ貸出ステータス表示に'貸出可'が含まれているかチェック
 	if (rentStatus.indexOf(text) > -1) {
 		$("#return").prop("disabled", true);
-		console.log(rentStatus);
 	} else {
 		$("#rent").prop("disabled", true);
 		$("#edit").prop("disabled", true);
 		$("#delete").prop("disabled", true);
-		console.log(text);
 	}
 });
