@@ -13,3 +13,15 @@ $(".lendingStatus_label").ready(function() {
 		$("#delete").prop("disabled", true);
 	}
 });
+
+$(function() {
+	//テキストボックス内にテキストが入力されたら読み込む
+	$("#sbox").change(function() {
+		var val = $(this).val().length;
+		//入力されたテキストが1文字以上ある時検索ボタンを活性にする
+		if (val == 0) {
+			$("#sbtn").prop("disabled", true);
+		}else
+		$("#sbtn").prop("disabled", false);
+	});
+});
