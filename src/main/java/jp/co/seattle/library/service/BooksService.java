@@ -40,6 +40,44 @@ public class BooksService {
     }
 
     /**
+     * 完全一致検索
+     * 該当する書籍リストを取得する
+     *
+     * @param searchWord 検索ワード
+     * @param searchColumn 検索カラム
+     *
+     * @return 書籍リスト
+     */
+    public List<BookInfo> perfectSearchGetBookList(String searchWord, String searchColumn) {
+
+        List<BookInfo> perfectSearchGetedBookList = jdbcTemplate.query(
+                "SELECT id, title, author, publisher, publish_date, thumbnail_url FROM books WHERE " + searchColumn
+                        + " = '" + searchWord + "' ORDER BY title ASC",
+                new BookInfoRowMapper());
+
+        return perfectSearchGetedBookList;
+    }
+
+    /**
+     * 部分一致検索
+     * 該当する書籍リストを取得する
+     * 
+     * @param searchWord 検索ワード
+     * @param searchColumn 検索カラム
+     *
+     * @return 書籍リスト
+     */
+    public List<BookInfo> partSearchGetBookList(String searchWord, String searchColumn) {
+
+        List<BookInfo> partSearchGetedBookList = jdbcTemplate.query(
+                "SELECT id, title, author, publisher, publish_date, thumbnail_url FROM books WHERE " + searchColumn
+                        + " LIKE '%" + searchWord + "%' ORDER BY title ASC",
+                new BookInfoRowMapper());
+
+        return partSearchGetedBookList;
+    }
+
+    /**
      * 書籍IDに紐づく書籍詳細情報を取得する
      *
      * @param bookId 書籍ID

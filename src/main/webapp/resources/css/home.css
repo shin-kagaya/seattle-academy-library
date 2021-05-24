@@ -64,6 +64,49 @@ input {
     color: white;
 }
 
+.podition{
+	height:50px;
+}
+.podition li{
+	margin-bottom:5px;
+	margin-top:5px;
+}
+
+/* 検索機能 */
+#search{
+position:relative; 
+margin-bottom:20px;	
+margin-top:20px
+}
+#sbox{	
+outline:0;	
+height:47px;
+padding:0 10px; 
+position:absolute; 
+left:200;
+top:0; 
+max-width:270px;
+border-radius:2px;
+background:#eee;
+}
+#sbtn{
+width:70px;
+height:47px;
+position:absolute; 
+left:480px; 
+top:0;
+border-radius:2px;
+background:#7fbfff;
+color:#fff;
+font-weight:bold;
+font-size:16px;
+border:none;
+}
+#sbtn:hover{
+background:#eee;
+color:#7fbfff;
+}
+
 /* ここから追加 */
 .search_box {
     position: relative;
