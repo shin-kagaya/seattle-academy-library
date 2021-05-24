@@ -52,12 +52,12 @@ public class HomeController {
             @RequestParam("searchStyle") String searchStyle,
             Model model) {
         logger.info("Welcome searchBooks.java! The client locale is {}.", locale);
-        String style = "perfect";
+
         //検索で得られる書籍リストを格納するリストを宣言
         List<BookInfo> searchResult = new ArrayList<BookInfo>();
         
         //検索方法が完全一致の時、部分一致の時の条件分岐
-        if (searchStyle.equals(style)) {
+        if (searchStyle.equals("perfect")) {
             searchResult = booksService.perfectSearchGetBookList(searchWord, searchColumn);
         } else {
             searchResult = booksService.partSearchGetBookList(searchWord, searchColumn);
