@@ -167,4 +167,22 @@ public class BooksService {
         jdbcTemplate.update(sql);
 
     }
+
+    /**
+     * 貸出可能書籍リストを取得する
+     *
+     * @return 書籍リスト
+     */
+    public List<BookInfo> getRentOkBookList() {
+
+        //rentalTBLに存在しないかつbooksTBLに存在する書籍IDを取得
+        List<BookInfo> getedRentOkBookList = jdbcTemplate.query(
+                "SELECT id, title, author, publisher, publish_date, thumbnail_url FROM books WHERE NOT EXISTS (SELECT * FROM rental WHERE books.id = rental.book_id) order by title asc",
+                new BookInfoRowMapper());
+
+        return getedRentOkBookList;
+    }
 }
+
+
+

@@ -28,7 +28,9 @@
     </header>
     <main>
         <h1>Home</h1>
-        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> <a href="<%=request.getContextPath()%>/bulkRegist" class="btn_bulk_book">一括登録</a>
+        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> 
+        <a href="<%=request.getContextPath()%>/bulkRegist" class="btn_bulk_book">一括登録</a>
+        <a href="<%=request.getContextPath()%>/rentOkBook" class="btn_rent_ok_book">貸出可能書籍一覧</a>
         <form class="search" id="search" action="<%=request.getContextPath()%>/searchBooks" method="post">
             <ul class="podition">
                 <li><input type="radio" name="searchColumn" value="title" checked> 書籍名 <input type="radio" name="searchColumn" value="author"> 著者名</li>
@@ -37,11 +39,12 @@
             <input id="sbox" name="searchWord" type="text" placeholder="検索ワードを入力" />
             <button type="submit" id="sbtn" value="検索" disabled>検索</button>
         </form>
-        <div class="content_body">
-            <c:if test="${!empty resultMessage}">
-                <div class="error_msg">${resultMessage}</div>
-            </c:if>
-            <div class="error_msg">${searchResultMessage}</div>
+        <div class="content_body">            
+            <div class="error_msg">           
+                ${resultMessage}
+                ${searchResultMessage}
+                ${rentBookMessage}
+            </div>
             <div class="booklist">
                 <c:forEach var="bookInfo" items="${bookList}">
                     <div class="books">

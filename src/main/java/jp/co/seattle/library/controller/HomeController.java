@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,4 +74,24 @@ public class HomeController {
         return "home";
     }
 
+    /**
+     * 貸出可能書籍一覧を取得する
+     * @param model
+     * @return 遷移画面先
+     */
+    @RequestMapping(value = "/rentOkBook", method = RequestMethod.GET) //value＝actionで指定したパラメータ
+    //RequestParamでname属性を取得
+    public String login(Model model) {
+
+        //貸出可能書籍を取得するメソッドを呼び出してリストに代入
+        List<BookInfo> getRentOkBooks = booksService.getRentOkBookList();
+        //リストが空のとき、それ以外で条件分岐
+        if (CollectionUtils.isEmpty(getRentOkBooks)) {
+            model.addAttribute("rentBookMessage", "貸出可能な書籍がありません");
+        }else {
+            model.addAttribute("rentBookMessage", "貸出可能な書籍はこちらです");
+        }
+        model.addAttribute("bookList", getRentOkBooks);
+        return "home";
+    }
 }
